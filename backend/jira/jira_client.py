@@ -3,12 +3,13 @@
 import os
 import requests
 from typing import Dict, Any, List
+import streamlit as st
 
-JIRA_SITE = os.getenv("JIRA_SITE_URL")
-JIRA_EMAIL = os.getenv("JIRA_EMAIL")
-JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN")
-JIRA_PROJECT_KEY = os.getenv("JIRA_PROJECT_KEY")
-JIRA_PROJECT_ID = os.getenv("JIRA_PROJECT_ID")
+JIRA_SITE = st.secrets["JIRA_SITE_URL"]
+JIRA_EMAIL = st.secrets["JIRA_EMAIL"]
+JIRA_API_TOKEN = st.secrets["JIRA_API_TOKEN"]
+JIRA_PROJECT_KEY = st.secrets["JIRA_PROJECT_KEY"]
+JIRA_PROJECT_ID = st.secrets["JIRA_PROJECT_ID"]
 
 if not (JIRA_SITE and JIRA_EMAIL and JIRA_API_TOKEN and JIRA_PROJECT_KEY):
     # we'll not raise here; caller should handle missing config
