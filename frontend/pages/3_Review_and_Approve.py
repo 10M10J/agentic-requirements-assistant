@@ -4,6 +4,13 @@ import json
 import copy
 import requests
 from streamlit import session_state as ss
+import sys
+import os
+
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
+    
 from backend.jira.jira_client import JiraClient
 
 st.title("📝 Review & Approve Requirements")
