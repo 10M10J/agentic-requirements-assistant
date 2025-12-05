@@ -10,3 +10,5 @@ mistralai
 PyMuPDF
 openpyxl
 pyyaml
+docx2txt
+PyPDF2
