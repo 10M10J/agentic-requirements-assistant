@@ -1,6 +1,12 @@
 import streamlit as st
 import json
+import sys
+import os
 
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
+    
 # Initialize editable storage for requirements
 if "edited_requirements" not in st.session_state:
     st.session_state.edited_requirements = {}
