@@ -2,6 +2,7 @@
 
 import os
 from mistralai import Mistral
+import streamlit as st
 
 class LLMClient:
     """
@@ -9,7 +10,7 @@ class LLMClient:
     """
 
     def __init__(self, model: str = "mistral-small-latest"):
-        api_key = os.getenv("MISTRAL_API_KEY")
+        api_key = st.secrets["MISTRAL_API_KEY"]
         if not api_key:
             raise ValueError("MISTRAL_API_KEY not found. Please add it to your .env file.")
 
