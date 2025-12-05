@@ -3,7 +3,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 
 import streamlit as st
-from api_client import process_transcript
+#from api_client import process_transcript
+from backend.agents.pipeline import RequirementsPipeline
 
 st.title("Upload Transcript")
 
@@ -51,7 +52,9 @@ if uploaded_file is not None:
     # Button to process
     if st.button("Process Transcript"):
         with st.spinner("Processing with AI..."):
-            result = process_transcript(content)
+            #result = process_transcript(content)
+            pipeline = RequirementsPipeline()
+            result = pipeline.run(content)
 
         st.session_state["pipeline_result"] = result
 
