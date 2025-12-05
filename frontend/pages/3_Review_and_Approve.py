@@ -4,6 +4,7 @@ import json
 import copy
 import requests
 from streamlit import session_state as ss
+from backend.jira.jira_client import JiraClient
 
 st.title("📝 Review & Approve Requirements")
 
@@ -179,19 +180,18 @@ if st.button("🔁 Sync Approved Items to JIRA"):
 
     with st.spinner("Syncing approved items to JIRA..."):
         try:
-            url = "http://127.0.0.1:8000/api/jira/sync"
-            resp = requests.post(url, json={"payload": approved_payload}, timeout=120)
-            resp.raise_for_status()
-            data = resp.json()
+            jira = JiraClient()
+            sync_result = jira.sync_approved_payload(approved_payload)
 
-            if not data.get("success"):
-                st.error(f"Jira sync failed: {data.get('error')}")
-                st.stop()
-
-            # Store full sync result in session_state
-            st.session_state["jira_sync_result"] = data["result"]
+            # Store full sync result in the session
+            st.session_state["jira_sync_result"] = sync_result
 
             st.success("Jira sync complete!")
+            st.write("Created / Reused Jira Issues:")
+            st.json(sync_result)
+
+        except Exception as e:
+            st.error(f"Jira sync error: {e}")
 
             # ---------------------
             # SHOW CLICKABLE LINKS
