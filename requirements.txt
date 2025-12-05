@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+python-dotenv
+requests
+pydantic
+streamlit
+pandas
+pillow
+openai
+python-docx
+lxml
+mistralai
+PyMuPDF
+openpyxl
+pyyaml

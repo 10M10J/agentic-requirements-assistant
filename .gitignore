@@ -1,0 +1,20 @@
+venv/
+__pycache__/
+*.pyc
+
+.env
+.DS_Store
+
+# Streamlit cache/config
+.streamlit/
+
+# Data outputs
+data/output/
+
+# Logs
+*.log
+
+# Build artifacts
+*.egg-info/
+
+README.md
