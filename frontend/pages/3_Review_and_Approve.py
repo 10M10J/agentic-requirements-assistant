@@ -190,43 +190,29 @@ if st.button("🔁 Sync Approved Items to JIRA"):
             jira = JiraClient()
             sync_result = jira.sync_approved_payload(approved_payload)
 
-            # Store full sync result in the session
+            # Store full sync result
             st.session_state["jira_sync_result"] = sync_result
 
             st.success("Jira sync complete!")
-            st.write("Created / Reused Jira Issues:")
-            st.json(sync_result)
 
-        except Exception as e:
-            st.error(f"Jira sync error: {e}")
-
-            # ---------------------
-            # SHOW CLICKABLE LINKS
-            # ---------------------
-            JIRA_SITE = "https://10m10j.atlassian.net"
+            # --------------------------
+            # SHOW CLICKABLE LINKS (SUCCESS)
+            # --------------------------
+            JIRA_SITE = st.secrets["JIRA_SITE_URL"] + "/browse/"
 
             st.subheader("Created / Reused Jira Issues")
 
-            jira_epics = data["result"].get("epics", [])
+            # EPICS
+            for epic in sync_result.get("epics", []):
+                epic_key = epic.get("jira_key")
+                if epic_key:
+                    st.markdown(f"### 🟪 Epic: [{epic_key}]({JIRA_SITE}{epic_key})")
 
-            for epic in jira_epics:
-                epic_key = epic.get("jira_key") if isinstance(epic, dict) else epic
-                epic_url = f"{JIRA_SITE}/browse/{epic_key}"
-
-                st.markdown(f"### 🟪 Epic: [{epic_key}]({epic_url})")
-
-                # Stories loop (fixed)
+                # STORIES under this epic
                 for story in epic.get("stories", []):
-                    if isinstance(story, dict):
-                        story_key = story.get("jira_key")
-                    else:
-                        story_key = story
-
-                    if not story_key:
-                        continue
-
-                    story_url = f"{JIRA_SITE}/browse/{story_key}"
-                    st.markdown(f"- 🟩 Story: [{story_key}]({story_url})")
+                    story_key = story.get("jira_key")
+                    if story_key:
+                        st.markdown(f"- 🟩 Story: [{story_key}]({JIRA_SITE}{story_key})")
 
         except Exception as e:
             st.error(f"Jira sync error: {e}")
